@@ -2,9 +2,11 @@ var apiKeyMaps = require('./../.env').apiKeyMaps;
 var apiKeyWeather = require('./../.env').apiKeyWeather;
 var Retrieve = require('./../js/retrieve.js').retrieveModule;
 var Weather = require('./../js/process.js').weatherModule;
+var GameLogic = require('./../js/gameLogic.js').gameLogicModule;
 
 var ourRetriever = new Retrieve();
 var ourWeather = new Weather();
+var ourGame = new GameLogic();
 
 var displayHumidity = function(city, humidityData) {
   $('.showWeather').text("The humidity in " + city + " is " + humidityData + "%");
@@ -27,7 +29,7 @@ var displayTemp = function(city, tempData) {
 
 var displayElevation = function(elevation) {
   $(".elevation").text("the elevation is " + elevation);
-}
+};
 
 $(document).ready(function() {
   $("form#getElevation").submit(function() {
@@ -48,4 +50,12 @@ $(document).ready(function() {
     ourRetriever.getTemperature(city, displayTemp);
     // $('#location').val("");
   });
+
+  $('#get-city').click(function() {
+    var returnedCity = ourGame.getNextCity();
+    console.log(returnedCity);
+    $("#cities-output").text(returnedCity);
+
+  });
+
 });

@@ -25,13 +25,17 @@ var displayTemp = function(city, tempData) {
   $('.showWeather').text("The temperature in " + city + " is " + selectedTemp + " degrees " + $("#temp-selector").val());
 };
 
+var displayElevation = function(elevation) {
+  $(".elevation").text("the elevation is " + elevation);
+}
+
 $(document).ready(function() {
   $("form#getElevation").submit(function() {
     event.preventDefault();
     console.log("button is working");
     var longitude = $('#longitude').val();
     var latitude = $('#latitude').val();
-    ourRetriever.getElevation(latitude, longitude);
+    ourRetriever.getElevation(latitude, longitude, displayElevation);
   });
 
   $('#weatherLocation').click(function() {

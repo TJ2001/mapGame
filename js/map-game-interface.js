@@ -1,6 +1,15 @@
 var apiKeyMaps = require('./../.env').apiKeyMaps;
 var apiKeyWeather = require('./../.env').apiKeyWeather;
-var Weather = require('./../js/weather.js').weatherModule;
+var Retrieve = require('./../js/retrieve.js').retrieveModule;
+var Weather = require('./../js/process.js').weatherModule;
+
+var ourRetriever = new Retrieve();
+var ourWeather = new Weather();
+
+var displayHumidity = function(city, humidityData) {
+  $('.showWeather').text("The humidity in " + city + " is " + humidityData + "%");
+}
+
 
 $(document).ready(function() {
   $("form#getElevation").submit(function() {
@@ -8,25 +17,12 @@ $(document).ready(function() {
     console.log("button is working");
     var longitude = $('#longitude').val();
     var latitude = $('#latitude').val();
-      $.get("http://open.mapquestapi.com/elevation/v1/profile?key=" + apiKeyMaps + "&inFormat=kvp&latLngCollection=" + latitude + "," + longitude).then(function(response) {
-        console.log(JSON.stringify(response));
-        console.log(response);
-        console.log(response.elevationProfile);
-        console.log(response.elevationProfile[0]);
-        console.log(response.elevationProfile[0].height);
-        $(".elevation").text("the elevation is " + response.elevationProfile[0].height);
-    });
+    ourRetriever.getElevation(latitude, longitude);
   });
 
-  var ourWeather = new Weather();
   $('#weatherLocation').click(function() {
     var city = $('#location').val();
-    // $('#location').val("");
-    $.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiKeyWeather).then(function(response) {
-      $('.showWeather').text("The humidity in " + city + " is " + response.main.humidity + "%");
-    }).fail(function(error) {
-      $('.showWeather').text(error.responseJSON.message);
-   });
+    ourRetriever.getHumidity(city, displayHumidity);
   });
 
   $('#weatherTemp').click(function() {

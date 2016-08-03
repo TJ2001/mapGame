@@ -1,4 +1,6 @@
+// apiKeyMaps should link to your api key for mapquest.  http://open.mapquestapi.com/ //
 var apiKeyMaps = require('./../.env').apiKeyMaps;
+//apiKeyWeather should link to your api key for OpenWeatherMaps Current weather data. http://openweathermap.org/
 var apiKeyWeather = require('./../.env').apiKeyWeather;
 
 function Retrieve() {}

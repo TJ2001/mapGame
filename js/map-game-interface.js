@@ -8,8 +8,22 @@ var ourWeather = new Weather();
 
 var displayHumidity = function(city, humidityData) {
   $('.showWeather').text("The humidity in " + city + " is " + humidityData + "%");
-}
+};
 
+var displayTemp = function(city, tempData) {
+  var tempKelvin = tempData;
+  var tempCelsius = ourWeather.kelvinToCelsius(tempKelvin);
+  var tempFahrenheit = ourWeather.celsiusToFahrenheit(tempCelsius);
+  var selectedTemp = 1;
+  if ($("#temp-selector").val() === "celsius"){
+    selectedTemp = tempCelsius;
+  } else if ($("#temp-selector").val() === "fahrenheit") {
+    selectedTemp = tempFahrenheit;
+  } else {
+    selectedTemp = tempKelvin;
+  }
+  $('.showWeather').text("The temperature in " + city + " is " + selectedTemp + " degrees " + $("#temp-selector").val());
+};
 
 $(document).ready(function() {
   $("form#getElevation").submit(function() {
@@ -27,24 +41,7 @@ $(document).ready(function() {
 
   $('#weatherTemp').click(function() {
     var city = $('#location').val();
+    ourRetriever.getTemperature(city, displayTemp);
     // $('#location').val("");
-
-    $.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiKeyWeather).then(function(response) {
-      var tempKelvin = response.main.temp;
-      var tempCelsius = ourWeather.kelvinToCelsius(tempKelvin);
-      var tempFahrenheit = ourWeather.celsiusToFahrenheit(tempCelsius);
-      var selectedTemp = 1;
-      if ($("#temp-selector").val() === "celsius"){
-        selectedTemp = tempCelsius;
-      } else if ($("#temp-selector").val() === "fahrenheit") {
-        selectedTemp = tempFahrenheit;
-      } else {
-        selectedTemp = tempKelvin;
-      }
-
-      $('.showWeather').text("The temperature in " + city + " is " + selectedTemp + " degrees " + $("#temp-selector").val());
-    }).fail(function(error) {
-      $('.showWeather').text(error.responseJSON.message);
-   });
   });
 });

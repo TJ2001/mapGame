@@ -1,6 +1,7 @@
+var apiKeyMaps = require('./../.env').apiKeyMaps;
 var apiKeyWeather = require('./../.env').apiKeyWeather;
 
-function Retrieve() {};
+function Retrieve() {}
 
 
 Retrieve.prototype.getHumidity = function(city, displayFunction) {
@@ -17,5 +18,12 @@ Retrieve.prototype.getElevation = function(latitude, longitude) {
     $(".elevation").text("the elevation is " + response.elevationProfile[0].height);
 });
 };
+
+Retrieve.prototype.getTemperature = function(city, displayFunction) {
+  $.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiKeyWeather).then(function(response) {
+    displayFunction(city, response.main.temp);
+  });
+};
+
 
 exports.retrieveModule = Retrieve;

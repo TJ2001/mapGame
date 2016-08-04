@@ -15,6 +15,15 @@ Retrieve.prototype.getHumidity = function(city, displayFunction) {
   });
 };
 
+Retrieve.prototype.compareHumidity = function(questionCity, answerCity, gameObject) {
+  $.get('http://api.openweathermap.org/data/2.5/weather?q=' + questionCity + '&appid=' + apiKeyWeather).then(function(questionResponse) {
+    $.get('http://api.openweathermap.org/data/2.5/weather?q=' + answerCity + '&appid=' + apiKeyWeather).then(function(answerResponse) {
+      console.log(answerResponse);
+      gameObject.humidity(questionResponse.main.humidity, answerResponse.main.humidity);
+    });
+  });
+};
+
 Retrieve.prototype.getElevation = function(latitude, longitude, displayFunction) {
   $.get("http://open.mapquestapi.com/elevation/v1/profile?key=" + apiKeyMaps + "&inFormat=kvp&latLngCollection=" + latitude + "," + longitude).then(function(response) {
     displayFunction(response.elevationProfile[0].height);
@@ -79,6 +88,7 @@ Retrieve.prototype.getAnswer = function(questionData, questionCity, answerCity, 
     // var answerCityTemperature = this.getTemperature(answerCity);
     // returnArray.push(questionCityTemperature, answerCityTemperature);
   } else if (questionData === "humidity") {
+    this.compareHumidity(questionCity, answerCity, gameObject);
     // var questionCityHumidity = this.getHumidity(questionCity);
     // var answerCityHumidity = this.getHumidity(answerCity);
     // returnArray.push(questionCityHumidity, answerCityHumidity);

@@ -73,6 +73,7 @@ GameLogic.prototype.temperature = function(cityOneTemperature, cityTwoTemperatur
 GameLogic.prototype.humidity = function(cityOneHumidity, cityTwoHumidity) {
   if(Math.abs(cityOneHumidity - cityTwoHumidity) < 10) {
     this.score ++;
+    console.log(this.score);
     return true;
   } else {
     return false;

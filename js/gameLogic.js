@@ -50,17 +50,17 @@ GameLogic.prototype.getScore = function() {
   return this.score * 10;
 };
 
-GameLogic.prototype.elevation = function(cityOneElevation, cityTwoElevation) {
+GameLogic.prototype.elevation = function(cityOneElevation, cityTwoElevation, displayFunction) {
   if(Math.abs(cityOneElevation - cityTwoElevation) < 200) {
     this.score ++;
-    console.log(this.score);
+    displayFunction(cityOneElevation, cityTwoElevation);
     return true;
   } else {
     return false;
   }
 };
 
-GameLogic.prototype.temperature = function(cityOneTemperature, cityTwoTemperature) {
+GameLogic.prototype.temperature = function(cityOneTemperature, cityTwoTemperature, displayFunction) {
   if(Math.abs(cityOneTemperature - cityTwoTemperature) < 15) {
     this.score ++;
     console.log(this.score);
@@ -70,7 +70,7 @@ GameLogic.prototype.temperature = function(cityOneTemperature, cityTwoTemperatur
   }
 };
 
-GameLogic.prototype.humidity = function(cityOneHumidity, cityTwoHumidity) {
+GameLogic.prototype.humidity = function(cityOneHumidity, cityTwoHumidity, displayFunction) {
   if(Math.abs(cityOneHumidity - cityTwoHumidity) < 10) {
     this.score ++;
     console.log(this.score);

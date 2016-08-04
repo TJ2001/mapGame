@@ -31,6 +31,10 @@ var displayElevation = function(elevation) {
   $(".elevation").text("the elevation is " + elevation);
 };
 
+var displayQuestion = function(questionArray) {
+  $("#cities-output").text("What city matches the " + questionArray[0] + " of " + questionArray[1] + "?");
+};
+
 $(document).ready(function() {
   $("form#getElevation").submit(function() {
     event.preventDefault();
@@ -55,7 +59,17 @@ $(document).ready(function() {
     var returnedCity = ourGame.getNextCity();
     console.log(returnedCity);
     $("#cities-output").text(returnedCity);
+  });
 
+  $('#get-question').click(function() {
+    var questionArray = ourGame.getNextQuestion(displayQuestion);
+    console.log(questionArray);
+
+  });
+
+  $('#submit-answer').click(function() {
+    var answer = $('#answer').val();
+    ourRetriever.getAnswer(ourGame.currentQuestion, ourGame.currentCity, answer, ourGame);
   });
 
 });

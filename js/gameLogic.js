@@ -1,9 +1,13 @@
 function GameLogic() {
   this.score = 0;
   this.cityIndex = 35;
+  this.currentCity = "Denver";
+  this.currentQuestion = "elevation";
 }
 
-var cities = ["Boston", "Portland", "Dubai", "Dublin", "Seattle", "Los Angeles", "Phoenix", "New York", "Chicago", "Honk Kong", "Tokyo", "Seoul", "Beijing", "Sao Paulo", "Mexico City", "Osaka", "Manila", "Mumbai", "Delhi", "Jakarta", "Lagos", "Kolkata", "Cairo", "Buenos Aires", "Rio de Janeiro", "Moscow", "Shanghai", "Karachi", "Paris", "London", "Istanbul", "Nagoya", "Ibiza", "Barcelona", "Orlando"];
+var cities = ["Boston", "Portland", "Dubai", "Dublin", "Seattle", "Los Angeles", "Phoenix", "New York", "Chicago", "Hong Kong", "Tokyo", "Seoul", "Beijing", "Sao Paulo", "Mexico City", "Osaka", "Manila", "Mumbai", "Delhi", "Jakarta", "Lagos", "Kolkata", "Cairo", "Buenos Aires", "Rio de Janeiro", "Moscow", "Shanghai", "Karachi", "Paris", "London", "Istanbul", "Nagoya", "Ibiza", "Barcelona", "Orlando"];
+
+var questionList = ["elevation", "temperature", "humidity"];
 
 var shuffleCities = function(cities) {
   var currentIndex = cities.length, temporaryValue, randomIndex;
@@ -18,6 +22,16 @@ var shuffleCities = function(cities) {
     cities[randomIndex] = temporaryValue;
   }
   return cities;
+};
+
+GameLogic.prototype.getNextQuestion = function(displayFunction) {
+  var returnList = [];
+  this.currentCity = this.getNextCity();
+  this.currentQuestion = questionList[Math.floor(Math.random() * 3)];
+  returnList.push(this.currentQuestion);
+  returnList.push(this.currentCity);
+  displayFunction(returnList);
+  return returnList;
 };
 
 GameLogic.prototype.getNextCity = function() {
@@ -38,7 +52,8 @@ GameLogic.prototype.getScore = function() {
 
 GameLogic.prototype.elevation = function(cityOneElevation, cityTwoElevation) {
   if(Math.abs(cityOneElevation - cityTwoElevation) < 200) {
-    // this.score ++;
+    this.score ++;
+    console.log(this.score);
     return true;
   } else {
     return false;
@@ -47,7 +62,8 @@ GameLogic.prototype.elevation = function(cityOneElevation, cityTwoElevation) {
 
 GameLogic.prototype.temperature = function(cityOneTemperature, cityTwoTemperature) {
   if(Math.abs(cityOneTemperature - cityTwoTemperature) < 15) {
-    // this.score ++;
+    this.score ++;
+    console.log(this.score);
     return true;
   } else {
     return false;
@@ -56,7 +72,7 @@ GameLogic.prototype.temperature = function(cityOneTemperature, cityTwoTemperatur
 
 GameLogic.prototype.humidity = function(cityOneHumidity, cityTwoHumidity) {
   if(Math.abs(cityOneHumidity - cityTwoHumidity) < 10) {
-    // this.score ++;
+    this.score ++;
     return true;
   } else {
     return false;
